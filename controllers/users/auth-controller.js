@@ -1,6 +1,7 @@
 import * as usersDao from "./users-dao.js";
 
 const AuthController = (app) => {
+
   const register = (req, res) => {
       const username = req.body.username;
       const user = usersDao.findUserByUsername(username);
@@ -12,6 +13,7 @@ const AuthController = (app) => {
       req.session["currentUser"] = newUser;
       res.json(newUser);
   };
+
 
   const login = (req, res) => {
       const username = req.body.username;
@@ -43,9 +45,19 @@ const AuthController = (app) => {
       res.sendStatus(200);
   };
 
-  const update   = (req, res) => {
-  };
 
+  const update = (req, res) => {
+    const currentUser = req.session["currentUser"];
+    if(currentUser === undefined){
+        res.sendStatus(401);
+    }
+    let response = usersDao.updateUser(req.body);
+    if(response.status === 'ok'){
+        res.json(response.user)
+    }else{
+        res.sendStatus(500)
+    }
+};
 
   app.post("/api/users/register", register);
   app.post("/api/users/login",    login);
