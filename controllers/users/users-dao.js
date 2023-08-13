@@ -1,5 +1,6 @@
 let users = [];
 export const findAllUsers = () => users;
+
 export const findUserById = (uid) => {
   const index = users.findIndex((u) => u._id === uid);
   if (index !== -1) return users[index];
@@ -20,12 +21,17 @@ export const findUserByCredentials = (username, password) => {
   return null;
 };
 
-export const createUser = (user) => users.push(user);
+export const createUser = (user) => {
+  users.push(user);
+  console.log(user)
+}
+
+
 
 export const updateUser = (uid, user) => {
   const index = users.findIndex((u) => u._id === uid);
   users[index] = { ...users[index], ...user };
-  return { status: "ok" };
+  return { status: "ok", user: users[index] };
 };
 
 

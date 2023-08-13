@@ -1,6 +1,7 @@
 import people from "./users.js";
 
 let users = people;
+
 const UserController = (app) => {
   app.get("/api/users", findUsers);
   app.get("/api/users/:uid", findUserById);
@@ -46,7 +47,5 @@ const deleteUser = (req, res) => {
   users = users.filter((usr) => usr._id !== userId);
   res.sendStatus(200);
 };
-
-
 
 export default UserController;
